@@ -8,8 +8,8 @@ from app.database import Base
 from app.main import app, get_db
 
 # --- Create the test database engine and session ---
-# only uses sqlite:/// instead of sqlite:///... to create an in-memory db so it disappears
-# after testing is complete
+# only uses sqlite:/// instead of sqlite:///... to create an in-memory db
+# so it disappears after testing is complete
 engine = create_engine(
     "sqlite:///", connect_args={"check_same_thread": False}, poolclass=StaticPool
 )
