@@ -39,7 +39,7 @@ def client(db):
     app.dependency_overrides.clear()
 
 
-# Test 1: Creating a test  |  POST /tasks w/ title and descciption
+# Test 1: Creating a test  |  POST /tasks w/ title and description
 # Expected Result: 201 Status Code & a Response containing the title
 # and description you sent, plus id, completed (defaulting to False),
 # and created_at.
@@ -69,9 +69,9 @@ def test_list_all_tasks(client):
     )
     assert post_response.status_code == 201
 
-    finial_response = client.get("/tasks")
-    assert finial_response.status_code == 200
-    data = finial_response.json()
+    final_response = client.get("/tasks")
+    assert final_response.status_code == 200
+    data = final_response.json()
 
     assert len(data) == 1
 
