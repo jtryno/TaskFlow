@@ -48,3 +48,30 @@ def test_create_task(client):
     assert data["completed"] is False
     assert "id" in data
     assert "created_at" in data
+
+
+# Test 2: Listing all tasks  |  GET /tasks
+# Expected Result: 200 Status Code, initially an empty list,
+# then a list with one task after creating one.
+def test_list_all_tasks(client):
+    initial_response = client.get("/tasks")
+    assert initial_response.status_code == 200
+    assert initial_response.json() == []
+
+    post_response = client.post("/tasks", json={"title": "Test Task", "description": "A test"})
+    assert post_response.status_code == 201
+
+    finial_response = client.get("/tasks")
+    assert finial_response.status_code == 200
+    data = finial_response.json()
+
+    assert len(data) == 1
+
+    assert data[0]["title"] == "Test Task"
+    assert data[0]["description"] == "A test"
+    assert data[0]["completed"] is False
+    assert "id" in data[0]
+    assert "created_at" in data[0]
+
+
+
