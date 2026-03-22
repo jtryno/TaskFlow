@@ -10,8 +10,11 @@ from app.main import app, get_db
 # --- Create the test database engine and session ---
 # only uses sqlite:/// instead of sqlite:///... to create an in-memory db so it disappears
 # after testing is complete
-engine = create_engine("sqlite:///", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+engine = create_engine(
+    "sqlite:///", connect_args={"check_same_thread": False}, poolclass=StaticPool
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
 
 # Make the db fixture to give each test a fresh db session
 @pytest.fixture
@@ -23,6 +26,7 @@ def db():
     finally:
         session.close()
         Base.metadata.drop_all(bind=engine)
+
 
 # Make the client fixture to give each test a TestClient that uses the test db
 @pytest.fixture
@@ -37,10 +41,12 @@ def client(db):
 
 # Test 1: Creating a test  |  POST /tasks w/ title and descciption
 # Expected Result: 201 Status Code & a Response containing the title
-# and description you sent, plus id, completed (defaulting to False), 
+# and description you sent, plus id, completed (defaulting to False),
 # and created_at.
 def test_create_task(client):
-    response = client.post("/tasks", json={"title": "Test Task", "description": "A test"})
+    response = client.post(
+        "/tasks", json={"title": "Test Task", "description": "A test"}
+    )
     assert response.status_code == 201
     data = response.json()
     assert data["title"] == "Test Task"
@@ -58,7 +64,9 @@ def test_list_all_tasks(client):
     assert initial_response.status_code == 200
     assert initial_response.json() == []
 
-    post_response = client.post("/tasks", json={"title": "Test Task", "description": "A test"})
+    post_response = client.post(
+        "/tasks", json={"title": "Test Task", "description": "A test"}
+    )
     assert post_response.status_code == 201
 
     finial_response = client.get("/tasks")
@@ -81,7 +89,9 @@ def test_get_task_by_id_pass(client):
     initial_response = client.get("/tasks")
     assert initial_response.status_code == 200
 
-    post_response = client.post("/tasks", json={"title": "Test Task", "description": "A test"})
+    post_response = client.post(
+        "/tasks", json={"title": "Test Task", "description": "A test"}
+    )
     assert post_response.status_code == 201
 
     get_response = client.get("/tasks/1")
@@ -114,10 +124,19 @@ def test_get_task_by_id_fail(client):
 # Expected result: 200 Status Code with the updated fields
 # in the JSON body.
 def test_update_single_task_pass(client):
-    post_response = client.post("/tasks", json={"title": "Test Task", "description": "A test"})
+    post_response = client.post(
+        "/tasks", json={"title": "Test Task", "description": "A test"}
+    )
     assert post_response.status_code == 201
 
-    put_response = client.put("/tasks/1", json={"title": "NEW Test Task", "description": "NEW description", "completed": True})
+    put_response = client.put(
+        "/tasks/1",
+        json={
+            "title": "NEW Test Task",
+            "description": "NEW description",
+            "completed": True,
+        },
+    )
     assert put_response.status_code == 200
 
     new_data = put_response.json()
@@ -132,7 +151,14 @@ def test_update_single_task_pass(client):
 # Expected result: 404 Status Code for a task where task_id is
 # not found.
 def test_update_single_task_fail(client):
-    put_response = client.put("/tasks/9999", json={"title": "NEW Test Task", "description": "NEW description", "completed": True})
+    put_response = client.put(
+        "/tasks/9999",
+        json={
+            "title": "NEW Test Task",
+            "description": "NEW description",
+            "completed": True,
+        },
+    )
     assert put_response.status_code == 404
 
     new_data = put_response.json()
@@ -143,12 +169,14 @@ def test_update_single_task_fail(client):
 # Expected result: 204 Status with no response body
 # Checks GET /tasks/{task_id} to ensure a 404 response
 def test_delete_task_pass(client):
-    post_response = client.post("/tasks", json={"title": "Test Task", "description": "A test"})
+    post_response = client.post(
+        "/tasks", json={"title": "Test Task", "description": "A test"}
+    )
     assert post_response.status_code == 201
 
     delete_response = client.delete("/tasks/1")
     assert delete_response.status_code == 204
-    
+
     get_response = client.get("/tasks/1")
     assert get_response.status_code == 404
 
@@ -164,4 +192,3 @@ def test_delete_task_fail(client):
 
     data = delete_response.json()
     assert data["detail"] == "Task not found"
-
