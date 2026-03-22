@@ -6,7 +6,7 @@ A simple task manager REST API built with FastAPI and SQLite. This project is fo
 
 **Application:** Python, FastAPI, SQLAlchemy, SQLite
 
-**CI/CD Pipeline (coming soon):** GitHub Actions, Docker, Trivy, GitHub Container Registry, AWS EC2
+**CI/CD:** GitHub Actions, Docker, Trivy, GitHub Container Registry, AWS EC2
 
 ## API Endpoints
 
@@ -48,32 +48,39 @@ uvicorn app.main:app --reload
 ```
 TaskFlow/
     app/
-        main.py          FastAPI app and route definitions
-        models.py        SQLAlchemy database model
-        schemas.py       Pydantic request and response schemas
-        crud.py          Database operations
-        database.py      SQLite engine and session configuration
+        main.py              FastAPI app and route definitions
+        models.py            SQLAlchemy database model
+        schemas.py           Pydantic request and response schemas
+        crud.py              Database operations
+        database.py          SQLite engine and session configuration
     tests/
-        test_tasks.py    API endpoint tests (pytest)
+        test_tasks.py        API endpoint tests (pytest)
     .github/workflows/
+        pr.yml               PR pipeline (lint, test, build, scan)
+    Dockerfile
+    .dockerignore
     requirements.txt
     requirements-dev.txt
     setup.cfg
-    Dockerfile
 ```
 
-## Planned CI/CD Pipeline
+## CI/CD Pipeline
 
-The pipeline will run through GitHub Actions with the following stages:
+### PR Pipeline (live)
 
-1. **Lint** using flake8 and black to enforce code style
-2. **Test** using pytest with coverage reporting
-3. **Build** a Docker image
-4. **Scan** the image for vulnerabilities using Trivy
+Every pull request against `main` triggers the following jobs in sequence:
+
+1. **Lint** — flake8 and black enforce code style
+2. **Test** — pytest runs the full test suite with coverage
+3. **Build** — Docker image is built
+4. **Scan** — Trivy scans the image for HIGH/CRITICAL vulnerabilities
+
+### Deploy Pipeline (coming soon)
+
+Merging to `main` will additionally:
+
 5. **Push** the image to GitHub Container Registry
 6. **Deploy** to an AWS EC2 instance
-
-Pull requests will trigger linting, testing, building, and scanning. Merging to main will additionally push the image and deploy to production.
 
 ## Running Tests
 
@@ -83,4 +90,4 @@ pytest -v
 
 ## Status
 
-The core API is complete. Currently writing tests for all endpoints (create and list are done). Up next: finish remaining tests (get, update, delete), then move on to the Dockerfile, GitHub Actions CI/CD pipeline, and AWS EC2 deployment.
+The core API and test suite are complete (8 tests covering all 5 endpoints). The PR pipeline is live and enforcing lint, test, build, and scan gates on every pull request. Up next: deploy pipeline to push images to GHCR and deploy to AWS EC2.
