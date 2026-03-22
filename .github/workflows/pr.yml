@@ -60,7 +60,7 @@ jobs:
         run: docker build -t taskflow .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           image-ref: 'taskflow'
           format: 'table'
