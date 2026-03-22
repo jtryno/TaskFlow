@@ -22,3 +22,22 @@ jobs:
 
       - name: Lint using black and flake8
         run: black --check . && flake8 .
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+
+      - name: Checkout the repo
+        uses: actions/checkout@v6
+
+      - name: Setup python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install the dev dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run the testing suite (tests/test_tasks.py)
+        run: pytest --cov=app
+
