@@ -75,7 +75,15 @@ Every pull request against `main` triggers the following jobs in sequence:
 3. **Build** — Docker image is built
 4. **Scan** — Trivy scans the image for HIGH/CRITICAL vulnerabilities
 
-### Deploy Pipeline (coming soon)
+### Branch Protection
+
+The `main` branch is protected with the following rules:
+
+- All changes must go through a pull request
+- Status checks (`lint`, `test`, `build`, `scan`) must pass before merging
+- Force pushes and branch deletion are blocked
+
+### Deploy Pipeline (COMING SOON!)
 
 Merging to `main` will additionally:
 
