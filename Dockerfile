@@ -6,7 +6,8 @@ WORKDIR /app
 
 # Copy and install the dependencies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt && \
+    pip uninstall -y setuptools wheel
 
 # Copy the apps code
 COPY . .
