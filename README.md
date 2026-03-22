@@ -54,6 +54,7 @@ TaskFlow/
         crud.py          Database operations
         database.py      SQLite engine and session configuration
     tests/
+        test_tasks.py    API endpoint tests (pytest)
     .github/workflows/
     requirements.txt
     requirements-dev.txt
@@ -74,6 +75,12 @@ The pipeline will run through GitHub Actions with the following stages:
 
 Pull requests will trigger linting, testing, building, and scanning. Merging to main will additionally push the image and deploy to production.
 
+## Running Tests
+
+```
+pytest -v
+```
+
 ## Status
 
-Currently building out the core API. The CI/CD pipeline, Docker setup, and deployment configuration are up next.
+The core API is complete. Currently writing tests for all endpoints (create and list are done). Up next: finish remaining tests (get, update, delete), then move on to the Dockerfile, GitHub Actions CI/CD pipeline, and AWS EC2 deployment.
