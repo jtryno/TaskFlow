@@ -75,7 +75,7 @@ Every pull request against `main` triggers the following jobs in sequence:
 3. **Build** — Docker image is built
 4. **Scan** — Trivy scans the image for HIGH/CRITICAL vulnerabilities
 
-### Deploy Pipeline (coming soon)
+### Deploy Pipeline (COMING SOON!)
 
 Merging to `main` will additionally:
 
