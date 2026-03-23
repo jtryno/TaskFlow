@@ -57,6 +57,7 @@ TaskFlow/
         test_tasks.py        API endpoint tests (pytest)
     .github/workflows/
         pr.yml               PR pipeline (lint, test, build, scan)
+        deploy.yml           Deploy pipeline (build, push to GHCR, deploy to EC2)
     Dockerfile
     .dockerignore
     requirements.txt
@@ -83,12 +84,12 @@ The `main` branch is protected with the following rules:
 - Status checks (`lint`, `test`, `build`, `scan`) must pass before merging
 - Force pushes and branch deletion are blocked
 
-### Deploy Pipeline (COMING SOON!)
+### Deploy Pipeline (live)
 
-Merging to `main` will additionally:
+Merging to `main` triggers the deploy pipeline:
 
-5. **Push** the image to GitHub Container Registry
-6. **Deploy** to an AWS EC2 instance
+1. **Build & Push** — Docker image is built and pushed to GitHub Container Registry
+2. **Deploy** — SSH into the EC2 instance, pull the latest image, and restart the container
 
 ## Running Tests
 
@@ -96,6 +97,13 @@ Merging to `main` will additionally:
 pytest -v
 ```
 
+## Infrastructure
+
+- **AWS EC2** — Amazon Linux 2023 instance running Docker
+- **Elastic IP** — Static public IP for consistent access
+- **Security Group** — Port 8000 open for API access, port 22 for SSH (key-based auth only)
+- **GHCR** — Docker images stored in GitHub Container Registry
+
 ## Status
 
-The core API and test suite are complete (8 tests covering all 5 endpoints). The PR pipeline is live and enforcing lint, test, build, and scan gates on every pull request. Up next: deploy pipeline to push images to GHCR and deploy to AWS EC2.
+The full CI/CD pipeline is complete and live. Pull requests are gated by lint, test, build, and scan checks with branch protection enforcing all must pass. Merging to `main` automatically builds, pushes, and deploys the latest image to EC2.
