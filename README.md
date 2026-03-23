@@ -8,6 +8,8 @@ A simple task manager REST API built with FastAPI and SQLite. This project is fo
 
 **CI/CD:** GitHub Actions, Docker, Trivy, GitHub Container Registry, AWS EC2
 
+**Infrastructure as Code:** Terraform, AWS Provider
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
@@ -58,6 +60,10 @@ TaskFlow/
     .github/workflows/
         pr.yml               PR pipeline (lint, test, build, scan)
         deploy.yml           Deploy pipeline (build, push to GHCR, deploy to EC2)
+    terraform/
+        main.tf              AWS provider and resource definitions
+        variables.tf         Configurable input variables
+        outputs.tf           Output values (public IP, instance ID, etc.)
     Dockerfile
     .dockerignore
     requirements.txt
@@ -104,6 +110,29 @@ pytest -v
 - **Security Group** — Port 8000 open for API access, port 22 for SSH (key-based auth only)
 - **GHCR** — Docker images stored in GitHub Container Registry
 
+### Terraform
+
+All AWS infrastructure is defined as code using Terraform. Resources managed:
+
+- EC2 instance (t2.micro, Amazon Linux 2023)
+- Security group (SSH + API access)
+- Elastic IP
+
+To use:
+
+```
+cd terraform
+terraform init
+terraform plan
+terraform apply
+```
+
+## Next Steps
+
+- [ ] Environment variables — externalize configuration (database URL, app settings)
+- [ ] Database upgrade — migrate from SQLite to MySQL via AWS RDS
+- [ ] Staging environment — separate environment for testing before production
+
 ## Status
 
-The full CI/CD pipeline is complete and live. Pull requests are gated by lint, test, build, and scan checks with branch protection enforcing all must pass. Merging to `main` automatically builds, pushes, and deploys the latest image to EC2.
+The full CI/CD pipeline is complete and live. Pull requests are gated by lint, test, build, and scan checks with branch protection enforcing all must pass. Merging to `main` automatically builds, pushes, and deploys the latest image to EC2. AWS infrastructure is managed with Terraform.
