@@ -4,4 +4,7 @@ tests/
 __pycache__
 .github/
 *.md
+.env*
+*.pem
+*.key
 terraform/

@@ -12,6 +12,10 @@ RUN pip install -r requirements.txt && \
 # Copy the apps code
 COPY . .
 
+# Create a non-root user and give it ownership of the app directory
+RUN useradd -r -s /bin/false appuser && chown -R appuser:appuser /app
+USER appuser
+
 # Expose port 8000 for the FastAPI app
 EXPOSE 8000
 
