@@ -45,9 +45,9 @@ resource "aws_security_group" "security-group" {
 }
 
 resource "aws_instance" "taskflow-server" {
-  ami                    = "ami-02dfbd4ff395f2a1b"
-  instance_type          = "t2.micro"
-  key_name               = "taskflow-key"
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.security-group.id]
 
   tags = {
