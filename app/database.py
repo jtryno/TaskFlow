@@ -4,7 +4,9 @@ from app.config import settings
 
 SQLALCHEMY_DATABASE_URL = settings.database_url
 
-connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
+connect_args = (
+    {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
+)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)
 
