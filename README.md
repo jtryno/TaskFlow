@@ -127,6 +127,19 @@ terraform plan
 terraform apply
 ```
 
+### Shutdown and Restart (Cost Saving)
+
+To avoid charges when not actively working on the project:
+
+**Shutdown:**
+1. Stop the EC2 instance
+2. Disassociate and release the Elastic IP (an unattached EIP incurs charges)
+
+**Restart:**
+1. Start the EC2 instance
+2. Allocate a new Elastic IP and associate it with the instance
+3. Update the `EC2_HOST` GitHub Actions secret with the new IP
+
 ## Next Steps
 
 - [ ] Environment variables — externalize configuration (database URL, app settings)
