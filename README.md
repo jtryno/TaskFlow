@@ -142,7 +142,7 @@ To avoid charges when not actively working on the project:
 
 ## Next Steps
 
-- [ ] Environment variables — externalize configuration (database URL, app settings)
+- [x] Environment variables — externalize configuration (database URL, app settings)
 - [ ] Database upgrade — migrate from SQLite to MySQL via AWS RDS
 - [ ] Staging environment — separate environment for testing before production
 

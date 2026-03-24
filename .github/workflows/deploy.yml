@@ -52,4 +52,4 @@ jobs:
             docker rm taskflow || true
 
             # Start the new container
-            docker run -d --name taskflow -p 8000:8000 ghcr.io/jtryno/taskflow:latest
+            docker run -d --name taskflow --network host -e DATABASE_URL="${{ secrets.DATABASE_URL }}" ghcr.io/jtryno/taskflow:latest
