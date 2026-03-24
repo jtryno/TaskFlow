@@ -1,10 +1,10 @@
 # TaskFlow
 
-A simple task manager REST API built with FastAPI and SQLite. This project is focused on building a full CI/CD pipeline using GitHub Actions, with automated linting, testing, container scanning, and deployment to AWS EC2.
+A simple task manager REST API built with FastAPI and MySQL. This project is focused on building a full CI/CD pipeline using GitHub Actions, with automated linting, testing, container scanning, and deployment to AWS EC2.
 
 ## Tech Stack
 
-**Application:** Python, FastAPI, SQLAlchemy, SQLite
+**Application:** Python, FastAPI, SQLAlchemy, MySQL
 
 **CI/CD:** GitHub Actions, Docker, Trivy, GitHub Container Registry, AWS EC2
 
@@ -143,7 +143,7 @@ To avoid charges when not actively working on the project:
 ## Next Steps
 
 - [x] Environment variables — externalize configuration (database URL, app settings)
-- [ ] Database upgrade — migrate from SQLite to MySQL via AWS RDS
+- [x] Database upgrade — migrate from SQLite to MySQL on EC2
 - [ ] Staging environment — separate environment for testing before production
 
 ## Status
